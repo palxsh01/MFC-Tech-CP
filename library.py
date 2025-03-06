@@ -69,9 +69,8 @@ def delete():
                 library[j][2] = library[j+1][2]
             top -= 1
             return 1
-        elif i == top + 1 and library[i][0] != id:    #ID does not exist error
-            print("Record not found!")
-            return 0
+        print("Record not found!")    #ID does not exist error
+        return 0
 
 def menu():    #creating menu
     global top, library
