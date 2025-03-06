@@ -35,9 +35,12 @@ def read():
                 print("Book ID:", library[i][0], "    Book Name:", library[i][1], "    Book Author:", library[i][2])
                 print("Record displayed.")
                 return 1
-            elif i == top and library[i][0] != id:    #incorrect ID error
-                print("Record not found!")
-                return 0
+            print("Record not found!")    #incorrect ID error
+            return 0
+    else:    #incorrect input error
+        print("Incorrect input!")
+        return 0
+
 
 def update():
     global top, library
@@ -49,9 +52,8 @@ def update():
             library[i][2] = input("Enter new author's name: ")
             print("Successfully updated!")
             return 1
-        elif i == top and library[i][0] != id:    #new ID error
-            print("Record does not exist! Please use create function or an existing ID.")
-            return 0
+        print("Record does not exist! Please use create function or an existing ID.")    #new ID error
+        return 0
 
 def delete():
     global top, library
