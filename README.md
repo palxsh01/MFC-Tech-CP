@@ -1,4 +1,6 @@
 # MFC-Tech-CP
-I am Palash Shivnani, Reg. No. 24BBS0178
+Task 1 and Task 2 of CP are included in this repository.
 
-In this repository are my submissions for the Competitive Programming tasks
+Languages used to code the tasks are Python and C++
+
+Run the files and follow the prompts in the terminal to test the code.
