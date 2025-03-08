@@ -1,0 +1,19 @@
+Insertion Sort, Bubble Sort, Selection Sort, Merge Sort, and Quick Sort differ in their time and space complexities.  
+
+Insertion Sort has a best-case time complexity of O(n) when the array is nearly sorted, but its average and worst-case complexities are O(n²). 
+It is in-place (O(1) space) and stable, making it useful for small or nearly sorted datasets.  
+
+Bubble Sort also has a best-case complexity of O(n) when the array is already sorted but is inefficient for larger datasets with an average and worst-case complexity of O(n²). 
+It is in-place and stable but rarely used in practice due to excessive swaps.  
+
+Selection Sort, unlike Bubble and Insertion Sort, has a consistent O(n²) time complexity in all cases. It is in-place but not stable, as it may change the relative order of equal elements. 
+Despite fewer swaps, its performance is still poor for large datasets.  
+
+Merge Sort, on the other hand, is significantly more efficient for large inputs with a consistent O(n log n) time complexity in all cases. 
+However, it requires O(n) additional space, making it not in-place but stable.  
+
+Quick Sort is one of the most efficient sorting algorithms, with an average and best-case time complexity of O(n log n). 
+However, its worst-case complexity is O(n²) when the pivot selection is poor. Unlike Merge Sort, Quick Sort is in-place with O(log n) space complexity due to recursive function calls, but it is generally not stable.  
+
+While Merge Sort and Quick Sort are the most efficient for large datasets, Quick Sort is usually preferred due to its in-place nature. 
+Insertion Sort is useful for small or nearly sorted arrays, while Bubble Sort and Selection Sort are mostly used for educational purposes rather than practical applications.
