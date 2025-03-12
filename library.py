@@ -1,111 +1,112 @@
-top = 0    # initialise top of stack
-library = [[], [], []]    # creating an empty stack, with each element containing 3 pieces of information
+library = []  # Creating an empty stack
 
-def create():    # create function
-    global top, library
-    id = int(input("Enter book ID: "))
-    if top > 0:
-        for i in range(top):
-            if library[i][0] == id:    # verifying if ID already exists
-                print("Book ID already exists! Please use update function or a new ID.")
-                return 1
-    library[top].append(id)
-    library[top].append(input("Enter book name: "))
-    library[top].append(input("Enter author's name: "))
+def get_valid_int(prompt):
+    while True:
+        try:
+            return int(input(prompt))
+        except ValueError:
+            print("Invalid input! Please enter a number.")
+
+def create():
+    id = get_valid_int("Enter book ID: ")
+    if any(book[0] == id for book in library):  # Checking for duplicate ID
+        print("Book ID already exists! Please use update function or a new ID.")
+        return
+    if id <= 0:    #Checking for negative ID
+        print("Negative ID entered!")
+        return
+    name = input("Enter book name: ")
+    if len(name.strip()) == 0:    #Checking if string is empty
+        print("Invalid input! Please enter a book name!")
+        return
+    author = input("Enter book author: ")
+    if len(author.strip()) == 0:    #Checking if string is empty
+        print("Please enter book author!")
+        return
+    library.append([id, name, author])
     print("Successfully created!")
-    top += 1
-    return 1
 
 def read():
-    global top, library
-    if top == 0:    # empty library error
+    if len(library) == 0:  # Empty library error
         print("Library empty!")
-        return 0
-    record = input("Do you wish to view all records (A) or a specific record (S): ")    # asking user to read single or multiple records
-    if record == "A" or record == "a":
-        for i in range(top):
-            print("Book ID:", library[i][0], "    Book Name:", library[i][1], "    Book Author:", library[i][2])
+        return
+    
+    record = input("Do you wish to view all records (A) or a specific record (S): ")
+    
+    if record in ["A", "a"]:
+        print("Library Records:")
+        print("=" * 60)
+        print(f"{'Book ID':<10}| {'Book Name':<20}| {'Author':<20}")
+        print("=" * 60)
+        for book in library:
+            print(f"{book[0]:<10}| {book[1]:<20}| {book[2]:<20}")
+        print("=" * 60)
         print("All records displayed.")
-        return 1
-    elif record == "S" or record == "s":
-        id = int(input("Enter book ID: "))
-        found = False    # flag to check if book is found
-        for i in range(top):
-            if library[i][0] == id:
-                print("Book ID:", library[i][0], "    Book Name:", library[i][1], "    Book Author:", library[i][2])
-                print("Record displayed.")
+    
+    elif record in ["S", "s"]:    #Checking if record exists
+        id = get_valid_int("Enter book ID: ")
+        found = False
+        for book in library:
+            if book[0] == id:
+                print("Record Found:")
+                print("=" * 60)
+                print(f"{'Book ID':<10}| {'Book Name':<20}| {'Author':<20}")
+                print("=" * 60)
+                print(f"{book[0]:<10}| {book[1]:<20}| {book[2]:<20}")
+                print("=" * 60)
                 found = True
                 break
         if not found:
-            print("Record not found!")    
-        return 1
-    else:    # incorrect input error
+            print("Record not found!")
+    else:
         print("Incorrect input!")
-        return 0
 
 def update():
-    global top, library
-    id = int(input("Enter book ID: "))
-    found = False    # flag to check if book is found
-    for i in range(top):    # searching for given ID in library
-        if library[i][0] == id:
-            library[i][0] = int(input("Enter new book ID: "))
-            library[i][1] = input("Enter new book name: ")
-            library[i][2] = input("Enter new author's name: ")
+    id = get_valid_int("Enter book ID: ")
+    for book in library:    #Checking if record exists
+        if book[0] == id:
+            book[0] = get_valid_int("Enter new book ID: ")  
+            book[1] = input("Enter new book name: ")
+            book[2] = input("Enter new author's name: ")
             print("Successfully updated!")
-            found = True
-            break
-    if not found:
-        print("Record does not exist! Please use create function or an existing ID.")    
-    return 1
+            return
+    print("Record does not exist! Please use create function or an existing ID.")
 
 def delete():
-    global top, library
-    if top == 0:    # empty library error
+    if len(library) == 0:  # Empty library error
         print("Library empty!")
-        return 0
-    id = int(input("Enter book ID: "))
-    found = False    # flag to check if book is found
-    for i in range(top):
-        if library[i][0] == id:    # ID found
-            for j in range(i, top - 1):
-                library[j][0] = library[j+1][0]
-                library[j][1] = library[j+1][1]
-                library[j][2] = library[j+1][2]
-            top -= 1
+        return
+    id = get_valid_int("Enter book ID: ")
+    for i, book in enumerate(library):
+        if book[0] == id:  # ID found
+            del library[i]
             print("Record deleted successfully!")
-            found = True
-            break
-    if not found:
-        print("Record not found!")    
-    return 1
+            return
+    print("Record not found!")
 
-def menu():    # creating menu
-    global top, library
-    print("Create (C)    Read (R)    Update (U)    Delete (D)")
+def menu():  # Creating menu
+    print("Create (C)  |  Read (R)  |  Update (U)  |  Delete (D)")
     u = input("Select an option: ")
-    if u == "C" or u == "c":
+    if u in ["C", "c"]:
         create()
-    elif u == "R" or u == "r":
+    elif u in ["R", "r"]:
         read()
-    elif u == "U" or u == "u":
+    elif u in ["U", "u"]:
         update()
-    elif u == "D" or u == "d":
+    elif u in ["D", "d"]:
         delete()
-    else:    # incorrect input error
+    else:  # Incorrect input error
         print("Incorrect input!")
-        print("Program Terminated.")
-        exit()
     cont = input("Do you wish to continue? ")
-    if cont == "Y" or cont == "y":
+    if cont in ["Y", "y"]:
         menu()
-    elif cont == "N" or cont == "n":
+    elif cont in ["N", "n"]:
         print("Program Terminated.")
         exit()
-    else:    # incorrect input error
+    else:  # Incorrect input error
         print("Incorrect Input.")
         print("Program Terminated.")
         exit()
 
-# main function
+# Main function
 menu()
